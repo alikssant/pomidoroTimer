@@ -53,9 +53,7 @@ img {
   background-color: transparent;
   border: none;
   font-size: 22px;
-
   cursor: pointer;
-
   align-items: center;
   padding-top: 14px;
   margin-left: 73.5%;
@@ -73,27 +71,43 @@ img {
 }
 
 #startBtn {
-  border: 2px solid #5a5a5a;
-  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid aliceblue;
+  background-color: transparent;
   color: aliceblue;
   border-radius: 10px;
-  font-size: 1.3rem;
-  padding: 8px 18px;
+  font-size: 1.5rem;
+  padding: 8px 34px;
   cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 
   margin-top: 10px;
 }
 
-#reStartBtn {
-  border: 2px solid #5a5a5a;
-  background-color: rgba(255, 255, 255, 0.2);
+#startBtn:hover {
+  transform: scale(1.1);
+}
+
+.stopBtn {
+  margin-right: 4px;
+}
+
+.reStartBtn,
+.stopBtn {
+  border: 2px solid aliceblue;
+  background-color: transparent;
   color: aliceblue;
   border-radius: 10px;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   padding: 8px 14px;
   cursor: pointer;
-  margin-left: 5px;
+  margin-left: 8px;
   margin-top: 10px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.reStartBtn:hover,
+.stopBtn:hover {
+  transform: scale(1.1);
 }
 
 #focus,
@@ -107,7 +121,7 @@ img {
   cursor: pointer;
   padding: 8px 18px;
   font-size: 1.2rem;
-  border: 2px solid #5a5a5a;
+  border: 2px solid aliceblue;
 }
 
 @media screen and (max-width: 850px) {
@@ -117,7 +131,7 @@ img {
   .main .btn-close {
     margin-left: 270px;
   }
-  #startBtn,
+
   #focus,
   #break,
   #reStartBtn {
@@ -134,3 +148,5 @@ img {
     margin-left: 185px;
   }
 }
+
+/* rgba(255, 255, 255, 0.2); */

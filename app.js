@@ -1,10 +1,10 @@
 const start = document.getElementById("startBtn");
 const timerDisplay = document.getElementById("display");
-const reset = document.getElementById("reStartBtn");
 const breakBtn = document.getElementById("break");
 const focusBtn = document.getElementById("focus");
+const audio = document.getElementById("audio");
 
-let timeleft = 1500;
+let timeleft = 10;
 let interval;
 
 const updateTimer = () => {
@@ -22,14 +22,56 @@ const startTimer = () => {
     updateTimer();
 
     if (timeleft === 0) {
-      clearInterval(interval);
-      alert("Time is up");
-      timeleft = 1500;
-      updateTimer();
+      timeDone();
     }
   }, 1000);
 };
+const timeDone = () => {
+  stopBtn.style.display = "none";
+  timerDisplay.style.fontSize = "4.5rem";
+  timerDisplay.innerText = "Time is up";
+  audio.play();
+  clearInterval(interval);
 
-const stopTimer = () => {};
+  resetBtn.addEventListener("click", () => {
+    timerDisplay.style.fontSize = "6rem";
+    stopBtn.style.display = "inline-block";
+    audio.pause();
 
+    timeleft = 1500;
+    updateTimer();
+  });
+};
+const stopTimer = () => {
+  start.style.display = "none";
+  const stopBtn = document.createElement("button");
+  stopBtn.classList.add("stopBtn");
+  stopBtn.innerText = "Pause";
+  document.getElementById("controls").appendChild(stopBtn);
+  stopBtn.addEventListener("click", () => {
+    clearInterval(interval);
+    updateTimer();
+    stopBtn.style.display = "none"; // Hide the stop button
+    resetBtn.style.display = "none";
+    start.style.display = "inline-block"; // Show the start button again
+    // Add any other stop functionality here
+  });
+
+  const resetBtn = document.createElement("button");
+  resetBtn.classList.add("reStartBtn");
+  resetBtn.innerText = "Reset";
+  document.getElementById("controls").appendChild(resetBtn);
+  resetBtn.addEventListener("click", () => {
+    clearInterval(interval);
+    timeleft = 1500;
+    updateTimer();
+
+    resetBtn.style.display = "none"; // Hide the stop button
+    stopBtn.style.display = "none";
+    start.style.display = "inline-block"; // Show the start button again
+    // Add any other stop functionality here
+  });
+};
+
+start.addEventListener("click", stopTimer);
 start.addEventListener("click", startTimer);
