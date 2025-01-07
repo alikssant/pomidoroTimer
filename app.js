@@ -5,10 +5,10 @@ const focusBtn = document.getElementById("focus");
 const audio = document.getElementById("audio");
 const controls = document.getElementById("controls");
 
-let timeleft = 10;
+let timeleft = 1500;
 let interval;
-let stopBtn; // Declare globally
-let resetBtn; // Declare globally
+let stopBtn;
+let resetBtn;
 
 const updateTimer = () => {
   const minutes = Math.floor(timeleft / 60);
@@ -31,16 +31,13 @@ const startTimer = () => {
 };
 
 const timeDone = () => {
-  // Update timer display
   timerDisplay.style.fontSize = "4.5rem";
   timerDisplay.innerText = "Time is up";
   audio.play();
   clearInterval(interval);
 
-  // Hide stop button
   if (stopBtn) stopBtn.style.display = "none";
 
-  // Show reset button only
   if (resetBtn) {
     resetBtn.style.display = "inline-block";
     resetBtn.addEventListener("click", () => {
@@ -50,13 +47,14 @@ const timeDone = () => {
 };
 
 const resetState = () => {
-  // Reset to initial state
+  focusBtn.style.backgroundColor = "rgba(90, 90, 90, 0.8)";
+  breakBtn.style.backgroundColor = "";
   clearInterval(interval);
   timerDisplay.style.fontSize = "6rem";
 
-  timeleft = 1500; // Reset time to initial value (25 minutes)
+  timeleft = 1500; // (25 minutes)
   audio.pause();
-  audio.currentTime = 0; // Stop audio playback
+  audio.currentTime = 0;
 
   if (stopBtn) stopBtn.style.display = "none";
   if (resetBtn) resetBtn.style.display = "none";
@@ -66,8 +64,6 @@ const resetState = () => {
 
 const stopTimer = () => {
   start.style.display = "none";
-
-  // Create stop button if not already created
   if (!stopBtn) {
     stopBtn = document.createElement("button");
     stopBtn.classList.add("stopBtn");
@@ -77,14 +73,12 @@ const stopTimer = () => {
     stopBtn.addEventListener("click", () => {
       clearInterval(interval);
       updateTimer();
-      stopBtn.style.display = "none"; // Hide the stop button
+      stopBtn.style.display = "none";
       resetBtn.style.display = "none";
-      start.style.display = "inline-block"; // Show the start button again
+      start.style.display = "inline-block";
     });
   }
   stopBtn.style.display = "inline-block";
-
-  // Create reset button if not already created
   if (!resetBtn) {
     resetBtn = document.createElement("button");
     resetBtn.classList.add("reStartBtn");
@@ -98,5 +92,35 @@ const stopTimer = () => {
   resetBtn.style.display = "inline-block";
 };
 
-start.addEventListener("click", stopTimer);
+const breakTimerMode = () => {
+  breakBtn.style.backgroundColor = "rgba(90, 90, 90, 0.8)";
+  focusBtn.style.backgroundColor = "";
+  timeleft = 300;
+  updateTimer();
+};
+
+const startTimer1 = (initialTime = timeleft) => {
+  clearInterval(interval);
+  timeleft = initialTime;
+  updateTimer();
+
+  interval = setInterval(() => {
+    timeleft--;
+    updateTimer();
+
+    if (timeleft === 0) {
+      timeDone();
+    }
+  }, 1000);
+};
+
+const focusTimerMode = () => {
+  focusBtn.style.backgroundColor = "rgba(90, 90, 90, 0.8)";
+  breakBtn.style.backgroundColor = "";
+  timeleft = 1500;
+  updateTimer();
+};
 start.addEventListener("click", startTimer);
+start.addEventListener("click", stopTimer);
+breakBtn.addEventListener("click", breakTimerMode);
+focusBtn.addEventListener("click", focusTimerMode);
