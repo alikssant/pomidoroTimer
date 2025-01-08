@@ -5,10 +5,12 @@ const focusBtn = document.getElementById("focus");
 const audio = document.getElementById("audio");
 const controls = document.getElementById("controls");
 
-let timeleft = 1500;
+let timeleft = 1500; // (25 minutes)
 let interval;
 let stopBtn;
 let resetBtn;
+let startTime;
+let endTime;
 
 const updateTimer = () => {
   const minutes = Math.floor(timeleft / 60);
@@ -20,11 +22,18 @@ const updateTimer = () => {
 };
 
 const startTimer = () => {
+  startTime = Date.now();
+  endTime = startTime + timeleft * 1000; // Calculate when the timer should end
+
+  clearInterval(interval); // Clear any existing intervals
   interval = setInterval(() => {
-    timeleft--;
+    const now = Date.now();
+    timeleft = Math.max(0, Math.round((endTime - now) / 1000)); // Calculate remaining time
+
     updateTimer();
 
     if (timeleft === 0) {
+      clearInterval(interval);
       timeDone();
     }
   }, 1000);
@@ -40,9 +49,7 @@ const timeDone = () => {
 
   if (resetBtn) {
     resetBtn.style.display = "inline-block";
-    resetBtn.addEventListener("click", () => {
-      resetState();
-    });
+    resetBtn.addEventListener("click", resetState);
   }
 };
 
